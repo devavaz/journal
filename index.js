@@ -1,7 +1,16 @@
 /* === Imports === */
 
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+
 
 /* === Firebase Setup === */
 
@@ -16,8 +25,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-console.log(auth);
+
 
 /* === UI === */
 
@@ -56,8 +66,21 @@ showLoggedOutView();
 
 /* = Functions - Firebase - Authentication = */
 
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+      showLoggedInView()
+  } else {
+      showLoggedOutView()
+  }
+})
+
 function authSignInWithGoogle() {
-  console.log("Sign in with Google");
+  signInWithPopup(auth, provider)
+      .then((result) => {
+          console.log("Signed in with Google")
+      }).catch((error) => {
+          console.error(error.message)
+      })
 }
 
 function authSignInWithEmail() {
@@ -67,7 +90,6 @@ function authSignInWithEmail() {
 signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     clearAuthFields()
-    showLoggedInView();
   })
   .catch((error) => {
     console.log(error);
@@ -82,7 +104,6 @@ function authCreateAccountWithEmail() {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       clearAuthFields()  
-      showLoggedInView();
     })
     .catch((error) => {
       console.log(error);
@@ -91,7 +112,7 @@ function authCreateAccountWithEmail() {
 
 function authSignOut() {
     signOut(auth).then(() => {
-        showLoggedOutView();
+        
       }).catch((error) => {
        console.log(error);
       });
