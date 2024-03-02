@@ -1,6 +1,20 @@
 /* === Imports === */
 
+import { initializeApp } from "firebase/app";
+
 /* === Firebase Setup === */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyC3xXgMNdXH1Xl931yVhSRzAhKhefUHbPA",
+    authDomain: "journal-7c7cb.firebaseapp.com",
+    projectId: "journal-7c7cb",
+    storageBucket: "journal-7c7cb.appspot.com",
+    messagingSenderId: "687691488513",
+    appId: "1:687691488513:web:aa63a75f744139768dcf00"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  console.log(app)
 
 /* === UI === */
 
