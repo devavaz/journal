@@ -46,6 +46,10 @@ const passwordInputEl = document.getElementById("password-input");
 const signInButtonEl = document.getElementById("sign-in-btn");
 const createAccountButtonEl = document.getElementById("create-account-btn");
 const signOutButtonEl = document.getElementById("sign-out-btn")
+const userProfilePictureEl = document.getElementById("user-profile-picture")
+const userGreetingEl = document.getElementById("user-greeting")
+
+
 
 
 /* == UI - Event Listeners == */
@@ -69,6 +73,8 @@ showLoggedOutView();
 onAuthStateChanged(auth, (user) => {
   if (user) {
       showLoggedInView()
+      showProfilePicture(userProfilePictureEl, user)
+      showUserGreeting(userGreetingEl, user)
   } else {
       showLoggedOutView()
   }
@@ -149,3 +155,24 @@ function clearAuthFields() {
 	clearInputField(emailInputEl)
 	clearInputField(passwordInputEl)
 }
+
+function showProfilePicture(imgElement, user) {
+  const photoURL = user.photoURL
+  
+  if (photoURL) {
+      imgElement.src = photoURL
+  } else {
+      imgElement.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQioKINfcXK55EtAkOsFMG_CnHibqyNRI-tiPq_fGUVig&s"
+  }
+}
+
+
+function showUserGreeting(element, user) {
+  const displayName = user.displayName 
+
+  if (displayName) {
+      element.textContent = `Hey ${displayName}, how are you today?`
+  } else {
+      element.textContent = `Hey friend, how are you today?`
+  }
+} 
