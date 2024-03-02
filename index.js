@@ -1,7 +1,7 @@
 /* === Imports === */
 
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 /* === Firebase Setup === */
 
@@ -56,7 +56,17 @@ function authSignInWithGoogle() {
 }
 
 function authSignInWithEmail() {
-  console.log("Sign in with email and password");
+  const email = emailInputEl.value;
+  const password = passwordInputEl.value;
+
+signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    showLoggedInView();
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+    
 }
 
 function authCreateAccountWithEmail() {
